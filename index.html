@@ -1,1 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>뽀식 🐾 - 강아지 맞춤 사료 구독</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#FF6B35;--accent2:#FFB347;--accent3:#4ECDC4;
+  --bg:#FFF8F2;--card:#FFFFFF;--text:#2C2C2A;--muted:#888780;
+  --border:rgba(0,0,0,0.08);
+}
+html,body{height:100%;background:#f0f0f0;display:flex;justify-content:center;align-items:flex-start;padding:20px 0}
+body{font-family:'Noto Sans KR',sans-serif}
 
+.shell{width:390px;background:var(--bg);min-height:700px;position:relative;border-radius:32px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.15)}
+
+.nav{display:flex;justify-content:space-around;padding:10px 0 8px;background:var(--card);border-top:.5px solid var(--border);position:sticky;bottom:0;z-index:100}
+.ntab{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 12px;border:none;background:transparent;color:var(--muted);font-size:10px;font-family:'Noto Sans KR',sans-serif;transition:color .15s}
+.ntab.on{color:var(--accent)}
+.ntab svg{width:20px;height:20px}
+.scr{display:none}.scr.on{display:block}
+
+/* ONBOARDING */
+.ob-wrap{padding:0;overflow:hidden}
+.ob-slides{display:flex;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.ob-slide{min-width:100%;padding:40px 28px 24px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.ob-icon{font-size:72px;margin-bottom:20px;line-height:1}
+.ob-tag{font-size:11px;background:rgba(255,107,53,.12);color:var(--accent);padding:4px 12px;border-radius:20px;margin-bottom:12px;font-weight:700}
+.ob-title{font-size:22px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:10px}
+.ob-desc{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:32px}
+.ob-dots{display:flex;gap:6px;margin-bottom:24px}
+.ob-dot{width:8px;height:8px;border-radius:4px;background:var(--border);transition:all .3s}
+.ob-dot.on{width:24px;background:var(--accent)}
+.ob-btn{width:100%;padding:15px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
+.ob-skip{margin-top:12px;font-size:13px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:'Noto Sans KR',sans-serif}
+
+/* REGISTER */
+.reg-header{padding:20px 20px 0;display:flex;align-items:center;gap:12px}
+.back-btn{width:36px;height:36px;border-radius:50%;background:var(--card);border:.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--muted)}
+.reg-title{font-size:18px;font-weight:700;color:var(--text)}
+.progress-bar{margin:16px 20px 0;height:4px;background:var(--border);border-radius:2px}
+.progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s}
+.step-label{padding:6px 20px 0;font-size:12px;color:var(--muted)}
+.reg-body{padding:24px 20px}
+.field-label{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px}
+.field-hint{font-size:12px;color:var(--muted);margin-bottom:16px;margin-top:-6px}
+.breed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.breed-chip{padding:12px 6px;border-radius:14px;border:.5px solid var(--border);background:var(--card);text-align:center;cursor:pointer;transition:all .15s}
+.breed-chip.sel{border-color:var(--accent);background:#FFF0E8}
+.breed-chip .bc-icon{font-size:24px;margin-bottom:4px}
+.breed-chip .bc-label{font-size:11px;color:var(--muted)}
+.breed-chip.sel .bc-label{color:var(--accent);font-weight:700}
+.age-slider-wrap{margin-bottom:24px}
+.age-display{font-size:36px;font-weight:700;color:var(--accent);text-align:center;margin-bottom:8px}
+.age-display span{font-size:16px;font-weight:400;color:var(--muted)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.age-range-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
+.weight-input-wrap{margin-bottom:20px}
+.weight-big{display:flex;align-items:baseline;gap:8px;justify-content:center;margin-bottom:16px}
+.weight-val{font-size:52px;font-weight:700;color:var(--text);line-height:1}
+.weight-unit{font-size:20px;color:var(--muted)}
+.weight-btns{display:flex;gap:12px;justify-content:center}
+.wbtn{width:56px;height:56px;border-radius:50%;border:.5px solid var(--border);background:var(--card);font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text);font-family:'Noto Sans KR',sans-serif;transition:all .15s}
+.wbtn:hover{background:#FFF0E8;border-color:var(--accent);color:var(--accent)}
+.weight-note{text-align:center;font-size:12px;color:var(--muted);margin-top:12px}
+.next-btn{width:100%;padding:15px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;margin-top:8px}
+.next-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+
+/* CALCULATOR */
+.calc-wrap{padding:20px}
+.calc-header-card{background:linear-gradient(135deg,#FF6B35,#FFB347);border-radius:20px;padding:20px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden}
+.calc-header-card::after{content:'';position:absolute;right:-20px;top:-20px;width:100px;height:100px;background:rgba(255,255,255,.12);border-radius:50%}
+.calc-pet-row{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.calc-pet-icon{font-size:28px}
+.calc-pet-name{font-size:18px;font-weight:700}
+.calc-pet-info{font-size:13px;opacity:.85}
+.calc-subtitle{font-size:13px;opacity:.85;margin-top:8px}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.result-card{background:var(--card);border-radius:16px;border:.5px solid var(--border);padding:16px;text-align:center}
+.result-val{font-size:26px;font-weight:700;color:var(--accent)}
+.result-key{font-size:12px;color:var(--muted);margin-top:3px}
+.result-card.full{grid-column:span 2}
+.food-recommend{background:var(--card);border-radius:16px;border:.5px solid var(--border);padding:16px;margin-bottom:16px}
+.fr-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px}
+.fr-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:.5px solid var(--border)}
+.fr-item:last-child{border-bottom:none}
+.fr-img{width:44px;height:44px;border-radius:10px;background:#FFF0E8;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.fr-info{flex:1}
+.fr-name{font-size:13px;font-weight:700;color:var(--text)}
+.fr-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.fr-match{font-size:12px;color:var(--accent);font-weight:700}
+.subscribe-cta{width:100%;padding:15px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;margin-bottom:8px}
+.sub-note{text-align:center;font-size:12px;color:var(--muted)}
+
+/* HOME */
+.home-wrap{padding:20px}
+.home-logo{font-family:'Gaegu',cursive;font-size:32px;font-weight:700;color:var(--accent);margin-bottom:20px}
+.home-logo span{color:var(--accent2)}
+.summary-card{background:var(--card);border-radius:20px;border:.5px solid var(--border);padding:20px;margin-bottom:16px}
+.sc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.sc-title{font-size:15px;font-weight:700;color:var(--text)}
+.sc-badge{font-size:11px;background:#E8F8F6;color:#0F6E56;padding:3px 10px;border-radius:20px;font-weight:700}
+.pet-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:.5px solid var(--border)}
+.pet-row:last-child{border-bottom:none}
+.pa{width:44px;height:44px;border-radius:50%;background:#FFF0E8;display:flex;align-items:center;justify-content:center;font-size:22px}
+.pn{font-size:14px;font-weight:700;color:var(--text)}
+.pb{font-size:12px;color:var(--muted)}
+.p-amount{font-size:13px;font-weight:700;color:var(--accent);margin-left:auto}
+.delivery-card{background:linear-gradient(135deg,#4ECDC4,#44B5AD);border-radius:20px;padding:20px;color:#fff;margin-bottom:16px}
+.dc-label{font-size:12px;opacity:.85;margin-bottom:4px}
+.dc-title{font-size:18px;font-weight:700;margin-bottom:8px}
+.dc-progress{height:6px;background:rgba(255,255,255,.25);border-radius:3px;margin-bottom:6px}
+.dc-fill{height:100%;border-radius:3px;background:#fff;width:65%}
+.dc-note{font-size:12px;opacity:.85}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stat-c{background:var(--card);border-radius:14px;border:.5px solid var(--border);padding:14px 10px;text-align:center}
+.sv{font-size:20px;font-weight:700;color:var(--text)}
+.sk{font-size:11px;color:var(--muted);margin-top:2px}
+.reg-start-btn{width:100%;padding:15px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ONBOARDING -->
+<div class="scr on" id="s-ob">
+<div class="ob-wrap">
+  <div class="ob-slides" id="ob-slides">
+    <div class="ob-slide">
+      <div class="ob-icon">🐾</div>
+      <div class="ob-tag">뽀식에 오신 것을 환영해요</div>
+      <div class="ob-title">우리 아이 맞춤 사료,<br>매달 자동으로</div>
+      <div class="ob-desc">몸무게와 품종을 입력하면<br>딱 맞는 사료를 골라 정기 배송해드려요.<br>바쁜 견주님을 위한 똑똑한 구독 서비스.</div>
+      <div class="ob-dots"><div class="ob-dot on"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+      <button class="ob-btn" onclick="obNext()">시작하기</button>
+      <button class="ob-skip" onclick="goHome()">로그인하기</button>
+    </div>
+    <div class="ob-slide">
+      <div class="ob-icon">🔬</div>
+      <div class="ob-tag">AI 맞춤 추천</div>
+      <div class="ob-title">강아지 정보만 입력하면<br>AI가 알아서 추천</div>
+      <div class="ob-desc">품종·나이·몸무게를 분석해<br>하루 적정 사료량과 최적 제품을<br>자동으로 계산해드려요.</div>
+      <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot on"></div><div class="ob-dot"></div></div>
+      <button class="ob-btn" onclick="obNext()">다음</button>
+      <button class="ob-skip" onclick="goHome()">건너뛰기</button>
+    </div>
+    <div class="ob-slide">
+      <div class="ob-icon">📦</div>
+      <div class="ob-tag">정기 구독</div>
+      <div class="ob-title">언제든 변경, 취소<br>위약금 없이 자유롭게</div>
+      <div class="ob-desc">사료가 떨어질 걱정 없이<br>매달 자동으로 배송됩니다.<br>구독 변경·중단은 언제든 가능해요.</div>
+      <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot on"></div></div>
+      <button class="ob-btn" onclick="startRegister()">강아지 등록하기 🐶</button>
+      <button class="ob-skip" onclick="goHome()">건너뛰기</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- REGISTER -->
+<div class="scr" id="s-reg">
+  <div class="reg-header">
+    <button class="back-btn" onclick="regBack()">‹</button>
+    <div class="reg-title" id="reg-title">강아지 등록</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:33%"></div></div>
+  <div class="step-label" id="step-label">1 / 3 단계</div>
+  <div class="reg-body" id="step1">
+    <div class="field-label">품종을 선택해주세요</div>
+    <div class="field-hint">해당하는 크기의 품종을 골라주세요</div>
+    <div class="breed-grid">
+      <div class="breed-chip" onclick="selBreed(this,'말티즈')"><div class="bc-icon">🐕</div><div class="bc-label">말티즈</div></div>
+      <div class="breed-chip" onclick="selBreed(this,'푸들')"><div class="bc-icon">🐩</div><div class="bc-label">푸들</div></div>
+      <div class="breed-chip" onclick="selBreed(this,'치와와')"><div class="bc-icon">🐾</div><div class="bc-label">치와와</div></div>
+      <div class="breed-chip" onclick="selBreed(this,'비숑')"><div class="bc-icon">🤍</div><div class="bc-label">비숑</div></div>
+      <div class="breed-chip" onclick="selBreed(this,'포메라니안')"><div class="bc-icon">🦊</div><div class="bc-label">포메라니안</div></div>
+      <div class="breed-chip" onclick="selBreed(this,'기타')"><div class="bc-icon">❓</div><div class="bc-label">기타</div></div>
+    </div>
+    <button class="next-btn" id="step1-next" onclick="goStep(2)" disabled>다음 →</button>
+  </div>
+  <div class="reg-body" id="step2" style="display:none">
+    <div class="field-label">나이가 몇 살인가요?</div>
+    <div class="age-slider-wrap">
+      <div class="age-display" id="age-disp">2 <span>살</span></div>
+      <input type="range" min="0" max="15" value="2" step="1" id="age-range" oninput="updAge(this.value)">
+      <div class="age-range-labels"><span>0살 (강아지)</span><span>15살 (노령견)</span></div>
+    </div>
+    <div id="age-tip" style="background:#FFF0E8;border-radius:12px;padding:12px 14px;font-size:13px;color:var(--accent);margin-bottom:20px">🐣 성장기 강아지예요! 단백질이 풍부한 사료가 필요해요.</div>
+    <button class="next-btn" onclick="goStep(3)">다음 →</button>
+  </div>
+  <div class="reg-body" id="step3" style="display:none">
+    <div class="field-label">몸무게를 입력해주세요</div>
+    <div class="field-hint">모르시면 대략적인 값으로 입력하셔도 돼요</div>
+    <div class="weight-input-wrap">
+      <div class="weight-big"><div class="weight-val" id="w-val">4.0</div><div class="weight-unit">kg</div></div>
+      <div class="weight-btns">
+        <button class="wbtn" onclick="adjWeight(-0.5)">−</button>
+        <button class="wbtn" onclick="adjWeight(0.5)">+</button>
+      </div>
+      <div class="weight-note" id="w-note">소형견 평균 범위예요 👍</div>
+    </div>
+    <button class="next-btn" onclick="finishRegister()">등록 완료 →</button>
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+<div class="scr" id="s-calc">
+  <div class="calc-wrap">
+    <div class="calc-header-card">
+      <div class="calc-pet-row">
+        <div class="calc-pet-icon">🐕</div>
+        <div>
+          <div class="calc-pet-name" id="calc-pet-name">코코</div>
+          <div class="calc-pet-info" id="calc-pet-info">말티즈 · 2살 · 4.0kg</div>
+        </div>
+      </div>
+      <div class="calc-subtitle">AI가 분석한 맞춤 사료 계획이에요</div>
+    </div>
+    <div class="result-grid">
+      <div class="result-card"><div class="result-val" id="daily-g">68<span style="font-size:14px">g</span></div><div class="result-key">하루 권장량</div></div>
+      <div class="result-card"><div class="result-val" id="monthly-kg">2.0<span style="font-size:14px">kg</span></div><div class="result-key">한 달 필요량</div></div>
+      <div class="result-card full">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:13px;color:var(--muted);margin-bottom:4px">체형 상태</div><div style="font-size:15px;font-weight:700;color:var(--text)" id="bcs-label">정상 체중</div></div>
+          <div style="text-align:right"><div style="font-size:13px;color:var(--muted);margin-bottom:4px">칼로리</div><div style="font-size:15px;font-weight:700;color:var(--accent)" id="daily-kcal">272 kcal</div></div>
+        </div>
+        <div style="margin-top:12px;height:8px;background:var(--border);border-radius:4px"><div id="bcs-bar" style="height:100%;border-radius:4px;background:#4ECDC4;width:60%;transition:width .5s"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px"><span>저체중</span><span>정상</span><span>과체중</span></div>
+      </div>
+    </div>
+    <div class="food-recommend">
+      <div class="fr-title">🤖 추천 사료</div>
+      <div class="fr-item"><div class="fr-img">🥩</div><div class="fr-info"><div class="fr-name">오리고기 & 고구마</div><div class="fr-desc">피부 민감 · 소형견 최적화</div></div><div class="fr-match">98%</div></div>
+      <div class="fr-item"><div class="fr-img">🐑</div><div class="fr-info"><div class="fr-name">양고기 & 퀴노아</div><div class="fr-desc">알레르기 케어 · 저자극</div></div><div class="fr-match">91%</div></div>
+      <div class="fr-item"><div class="fr-img">🐟</div><div class="fr-info"><div class="fr-name">연어 & 감자</div><div class="fr-desc">오메가3 · 관절 건강</div></div><div class="fr-match">85%</div></div>
+    </div>
+    <div style="background:var(--card);border-radius:16px;border:.5px solid var(--border);padding:16px;margin-bottom:16px">
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">📅 구독 플랜 선택</div>
+      <div style="display:flex;gap:8px">
+        <div id="plan-2w" onclick="selPlan('2w')" style="flex:1;padding:12px 8px;border-radius:12px;border:1.5px solid var(--accent);background:#FFF0E8;text-align:center;cursor:pointer"><div style="font-size:12px;font-weight:700;color:var(--accent)">2주마다</div><div style="font-size:10px;color:var(--muted);margin-top:2px">1.0kg 배송</div></div>
+        <div id="plan-4w" onclick="selPlan('4w')" style="flex:1;padding:12px 8px;border-radius:12px;border:.5px solid var(--border);background:var(--card);text-align:center;cursor:pointer"><div style="font-size:12px;font-weight:700;color:var(--muted)">매월</div><div style="font-size:10px;color:var(--muted);margin-top:2px">2.0kg 배송</div></div>
+        <div id="plan-8w" onclick="selPlan('8w')" style="flex:1;padding:12px 8px;border-radius:12px;border:.5px solid var(--border);background:var(--card);text-align:center;cursor:pointer"><div style="font-size:12px;font-weight:700;color:var(--muted)">2달마다</div><div style="font-size:10px;color:var(--muted);margin-top:2px">4.0kg 배송</div></div>
+      </div>
+    </div>
+    <button class="subscribe-cta" onclick="goHome()">구독 시작하기 🐾</button>
+    <div class="sub-note">첫 구독 20% 할인 · 위약금 없이 언제든 취소</div>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="scr" id="s-home">
+  <div class="home-wrap">
+    <div class="home-logo">뽀<span>식</span> 🐾</div>
+    <div class="stat-row">
+      <div class="stat-c"><div class="sv">2</div><div class="sk">등록 강아지</div></div>
+      <div class="stat-c"><div class="sv">구독중</div><div class="sk">서비스 상태</div></div>
+      <div class="stat-c"><div class="sv">D-3</div><div class="sk">다음 배송</div></div>
+    </div>
+    <div class="delivery-card">
+      <div class="dc-label">다음 배송까지</div>
+      <div class="dc-title">오리고기 & 고구마 사료</div>
+      <div class="dc-progress"><div class="dc-fill"></div></div>
+      <div class="dc-note">3일 후 · 코코 1.2kg + 루이 0.8kg</div>
+    </div>
+    <div class="summary-card">
+      <div class="sc-header"><div class="sc-title">우리 강아지</div><div class="sc-badge">2마리 구독 중</div></div>
+      <div class="pet-row"><div class="pa">🐕</div><div><div class="pn">코코</div><div class="pb">말티즈 · 4.0kg · 2살</div></div><div class="p-amount">68g/일</div></div>
+      <div class="pet-row"><div class="pa">🐩</div><div><div class="pn">루이</div><div class="pb">푸들 · 3.8kg · 1살</div></div><div class="p-amount">62g/일</div></div>
+    </div>
+    <button class="reg-start-btn" onclick="startRegister()">+ 강아지 추가 등록</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="ntab on" id="nt-home" onclick="goHome()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>홈
+  </button>
+  <button class="ntab" id="nt-reg" onclick="startRegister()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><line x1="12" y1="14" x2="12" y2="20"/><line x1="9" y1="17" x2="15" y2="17"/></svg>등록
+  </button>
+  <button class="ntab" id="nt-calc" onclick="switchNav('calc')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>사료계산기
+  </button>
+</div>
+
+</div>
+
+<script>
+var petData={breed:'말티즈',age:2,weight:4.0};
+var obIdx=0;
+var regStep=1;
+var weight=4.0;
+
+function obNext(){obIdx++;document.getElementById('ob-slides').style.transform='translateX(-'+obIdx*100+'%)';}
+function startRegister(){regStep=1;showScreen('reg');showRegStep(1);updateNav('reg');}
+function goHome(){showScreen('home');updateNav('home');}
+function switchNav(t){if(t==='home')goHome();else if(t==='calc'){showScreen('calc');updateCalc();updateNav('calc');}else if(t==='reg')startRegister();}
+function showScreen(id){['ob','reg','calc','home'].forEach(s=>{var el=document.getElementById('s-'+s);if(el)el.classList.remove('on');});var t=document.getElementById('s-'+id);if(t)t.classList.add('on');}
+function updateNav(a){['home','reg','calc'].forEach(t=>{var el=document.getElementById('nt-'+t);if(el)el.classList.remove('on');});var el=document.getElementById('nt-'+a);if(el)el.classList.add('on');}
+function showRegStep(n){[1,2,3].forEach(i=>{var el=document.getElementById('step'+i);if(el)el.style.display=i===n?'block':'none';});document.getElementById('prog-fill').style.width=(n/3*100)+'%';document.getElementById('step-label').textContent=n+' / 3 단계';var t=['품종 선택','나이 입력','몸무게 입력'];document.getElementById('reg-title').textContent=t[n-1];regStep=n;}
+function regBack(){if(regStep>1)showRegStep(regStep-1);else goHome();}
+function selBreed(el,name){document.querySelectorAll('.breed-chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');petData.breed=name;document.getElementById('step1-next').disabled=false;}
+function goStep(n){showRegStep(n);}
+function updAge(v){petData.age=parseInt(v);document.getElementById('age-disp').innerHTML=v+' <span>살</span>';var tips=['🐣 신생아예요! 퍼피용 사료가 꼭 필요해요.','🐣 성장기 강아지예요! 단백질이 풍부한 사료가 필요해요.','🌟 활발한 성견이에요! 균형 잡힌 영양이 중요해요.','🌟 활발한 성견이에요! 균형 잡힌 영양이 중요해요.','🌿 건강한 성견이에요! 현재 식단을 유지해요.','🌿 건강한 성견이에요! 현재 식단을 유지해요.','🍂 중년기예요. 관절 건강에 신경 써주세요.','🍂 중년기예요. 관절 건강에 신경 써주세요.','🌸 시니어 준비기예요. 칼로리를 조금 줄여봐요.','🌸 시니어예요. 소화하기 쉬운 사료를 추천해요.','🌸 시니어예요. 소화하기 쉬운 사료를 추천해요.'];document.getElementById('age-tip').textContent=tips[Math.min(v,10)];}
+function adjWeight(d){weight=Math.max(0.5,Math.min(60,weight+d));weight=Math.round(weight*10)/10;petData.weight=weight;document.getElementById('w-val').textContent=weight.toFixed(1);var note=weight<2?'매우 소형견이에요 🐾':weight<5?'소형견 평균 범위예요 👍':weight<15?'중형견 범위예요 👍':'대형견이에요 💪';document.getElementById('w-note').textContent=note;}
+function finishRegister(){updateCalc();showScreen('calc');updateNav('calc');}
+function updateCalc(){var w=petData.weight;var age=petData.age;var daily=Math.round(w*15+(age<1?10:age<2?5:0));var monthly=Math.round(daily*30/1000*10)/10;var kcal=Math.round(daily*4);document.getElementById('daily-g').innerHTML=daily+'<span style="font-size:14px">g</span>';document.getElementById('monthly-kg').innerHTML=monthly.toFixed(1)+'<span style="font-size:14px">kg</span>';document.getElementById('daily-kcal').textContent=kcal+' kcal';document.getElementById('calc-pet-info').textContent=petData.breed+' · '+petData.age+'살 · '+w.toFixed(1)+'kg';var bcsW=w<3?20:w<5?60:w<8?75:90;var bcsLabel=w<3?'저체중':w<7?'정상 체중':'과체중';var bcsColor=w<3?'#FFB347':w<7?'#4ECDC4':'#FF6B35';document.getElementById('bcs-bar').style.width=bcsW+'%';document.getElementById('bcs-bar').style.background=bcsColor;document.getElementById('bcs-label').textContent=bcsLabel;}
+function selPlan(p){['2w','4w','8w'].forEach(id=>{var el=document.getElementById('plan-'+id);if(el){el.style.border='.5px solid var(--border)';el.style.background='var(--card)';el.querySelector('div').style.color='var(--muted)';}});var sel=document.getElementById('plan-'+p);if(sel){sel.style.border='1.5px solid var(--accent)';sel.style.background='#FFF0E8';sel.querySelector('div').style.color='var(--accent)';}}
+</script>
+</body>
+</html>
